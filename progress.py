@@ -55,3 +55,17 @@ class Progress:
 
 	def get_percent(self):
 		return self.get_fraction() * 100
+
+class ProgressBar(Progress):
+	def __str__(self):
+		rate = self.get_progress_per_second()
+		if rate > 1.0 or rate == 0:
+			rate_str = "%.3f/s" % (rate,)
+		else:
+			rate_str = "%.3fs/" % ((1 / rate),)
+
+		bar = "%s%3d%% ETA: %.0fs, %s" % (
+			self.get_bar(width=40), self.get_percent(),
+			self.get_eta(), rate_str
+		)
+		return bar

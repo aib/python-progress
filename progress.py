@@ -56,6 +56,17 @@ class Progress:
 	def get_percent(self):
 		return self.get_fraction() * 100
 
+	def __iter__(self):
+		return self
+
+	def __next__(self):
+		if self.is_done():
+			raise StopIteration
+
+		n = self._progress
+		self.advance()
+		return n
+
 class ProgressBar(Progress):
 	def __str__(self):
 		rate = self.get_progress_per_second()
